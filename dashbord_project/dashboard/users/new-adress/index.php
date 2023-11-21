@@ -4,15 +4,18 @@ session_start();
 class User {
     public $name;
     public $last_name;
+    private $conn;
 
-    public function __construct($name, $last_name) {
+    public function __construct($name, $last_name, $conn) {
         $this->name = $name;
         $this->last_name = $last_name;
+        $this->conn = $conn;
     }
+
     public function get_full_name() {
         return $this->name . ' ' . $this->last_name;
     }
-    private $conn;
+
     public function addAddress($user, $city, $street, $no, $country) {
         $sql = "INSERT INTO adresses (user, city, street, no, country) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
@@ -57,6 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $db_password = "admin";
     $db_name = "osk_login";
 
+    $conn = new mysqli($db_host, $db_username, $db_password, $db_name);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $User = new User("oskar", "Andrukiewicz", $conn);
     $User->addAddress($user, $city, $street, $no, $country);
 }
 ?>

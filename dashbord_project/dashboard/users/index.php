@@ -26,11 +26,25 @@
 <body>
     <div id="main">
         <div id="menu">
-            <img src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp" alt="avatar uzytkownika"><br>
+            <?php 
+                    $username = $_SESSION["username"];
+                    $query2 = "SELECT avatar FROM users WHERE username = '$username'";
+                    $result2 = $mysqli->query($query2);
+
+                    if ($result2->num_rows === 1) {
+                        $row = $result2->fetch_assoc();
+                        $avatar = $row["avatar"];
+                        
+                        echo " <img src=".$avatar." alt='avatar uzytkownika'><br>";
+                    }
+                ?>
             <?php
                 echo "<h2>" . $_SESSION["username"] . "</h2>";
             ?>
-            <a href="http://localhost/osk_login/dashboard">Back</a>
+            <?php
+                echo "</b><br>Ostatnie logowanie:<br>" . $_SESSION["last_login"];
+            ?>
+            <a href="http://localhost/osk_login/dashboard">Dashboard</a>
         </div>
         <div id="content">
             <div id="user">

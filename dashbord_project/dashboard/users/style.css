@@ -21,9 +21,10 @@ body {
 }
 
 img {
-    padding-top: 30px;
+    margin-top: 30px;
     height: 128px;
     width: 128px;
+    border-radius: 50%;
 }
 .break {
     flex-basis: 100%;

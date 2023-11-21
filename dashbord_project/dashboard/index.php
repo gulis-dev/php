@@ -19,16 +19,7 @@
 
     $username = $_SESSION["username"];
 
-    $query = "SELECT last_login FROM users WHERE username = '$username'";
-    $result = $mysqli->query($query);
-
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        $lastLogin = $row["last_login"];
-        $lastLogin = date("d-m-Y H:i", time());
-    }
-
-    $mysqli->close();
+    
 ?>
 
 
@@ -42,14 +33,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="users/style.css">
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <hr>
-    <?php
-        echo "Witaj <b>" . $_SESSION["username"] . "</b><br>Ostatnie logowanie: " . $lastLogin;
-    ?>
-    <a href="http://localhost/osk_login/dashboard/users" style="background-color: grey;">User</a>
-    <a href="?action=logout">Logout</a>
+    <div id="main">
+        <div id="menu">
+            <?php 
+                $username = $_SESSION["username"];
+                $query2 = "SELECT avatar FROM users WHERE username = '$username'";
+                $result2 = $mysqli->query($query2);
+
+                if ($result2->num_rows === 1) {
+                    $row = $result2->fetch_assoc();
+                    $avatar = $row["avatar"];
+                    
+                    echo " <img src=".$avatar." alt='avatar uzytkownika'><br>";
+                }
+            ?>
+            <?php
+                echo "<h2>" . $_SESSION["username"] . "</h2>";
+            ?>
+            <?php
+                echo "</b><br>Ostatnie logowanie:<br>" . $_SESSION["last_login"];
+            ?>
+            <a href="http://localhost/osk_login/dashboard">Dashboard</a>
+        </div>
+        <div id="content">
+        <h1>Dashboard</h1>
+            <hr>
+            
+            <a href="http://localhost/osk_login/dashboard/users" style="background-color: grey;">User</a>
+            <a href="?action=logout">Logout</a>
+        </div>
+    </div>
+    
 </body>
 </html>

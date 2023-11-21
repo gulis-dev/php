@@ -27,6 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             $updateDate = "UPDATE users SET last_login = $time WHERE username = '$username'";
             if ($mysqli->query($updateDate)) {
+                $query2 = "SELECT last_login FROM users WHERE username = '$username'";
+                $result2 = $mysqli->query($query2);
+
+                if ($result2->num_rows === 1) {
+                    $row = $result2->fetch_assoc();
+                    $lastLogin = $row["last_login"];
+                    $lastLogin = date("d-m-Y H:i", time());
+                    $_SESSION["last_login"] = $lastLogin;
+                }
                 header("Location: ./dashboard");
                 exit();
             } else {
